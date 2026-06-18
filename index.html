@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>V10 Instant Collecté</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!--
+  INSTANT COLLECTÉ — site multi-pages (7 pages), routeur JS par hash, un seul fichier pour CodePen.
+  Pages : #accueil  #concept  #king-jouet  #fete-des-meres  #saint-valentin  #mariage  #fete-des-peres
+
+  IMAGES : toutes les images sont injectées via des constantes en haut de script.js (objet IMAGES).
+  Tant qu'une URL est vide (""), un cadre "image à venir" stylisé s'affiche à la place.
+  Pour mettre une vraie photo : héberger l'image (Assets CodePen, postimages, imgur...) et coller
+  l'URL https://... dans la bonne clé de l'objet IMAGES. Rien d'autre à toucher.
+
+  Cherchez [À REMPLACER] pour le texte/les prix à remplacer.
+-->
+
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<!-- ============================================================ HEADER -->
+<header class="nav" id="siteHeader">
+  <a href="#accueil" class="nav-logo">Instant Collecté</a>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="#accueil" data-route-link="accueil">Accueil</a>
+    <a href="#concept" data-route-link="concept">Le concept</a>
+
+    <div class="nav-editions" id="navEditions">
+      <button class="nav-editions-trigger" id="navEditionsTrigger" aria-expanded="false" aria-haspopup="true">
+        Éditions <span class="chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="nav-editions-menu" id="navEditionsMenu" role="menu">
+        <a href="#fete-des-meres" data-route-link="fete-des-meres" role="menuitem">
+          <span class="ne-emoji" aria-hidden="true">🌸</span>
+          <span class="ne-text"><strong>Fête des Mères</strong><small>Coffret poster + livret</small></span>
+        </a>
+        <a href="#saint-valentin" data-route-link="saint-valentin" role="menuitem">
+          <span class="ne-emoji" aria-hidden="true">💌</span>
+          <span class="ne-text"><strong>Saint-Valentin</strong><small>L'histoire d'un couple</small></span>
+        </a>
+        <a href="#king-jouet" data-route-link="king-jouet" role="menuitem">
+          <span class="ne-emoji" aria-hidden="true">🧸</span>
+          <span class="ne-text"><strong>King Jouet <span class="tag tag-partenariat">Partenariat</span></strong><small>Édition co-brandée</small></span>
+        </a>
+        <a href="#mariage" data-route-link="mariage" role="menuitem">
+          <span class="ne-emoji" aria-hidden="true">💍</span>
+          <span class="ne-text"><strong>Mariage <span class="tag tag-nouveau">Nouveau</span></strong><small>Le livret des invités</small></span>
+        </a>
+        <a href="#fete-des-peres" data-route-link="fete-des-peres" role="menuitem">
+          <span class="ne-emoji" aria-hidden="true">🧭</span>
+          <span class="ne-text"><strong>Fête des Pères <span class="tag tag-bientot">Bientôt</span></strong><small>Les souvenirs avec papa</small></span>
+        </a>
+      </div>
+    </div>
+
+    <button class="nav-cta" data-order-link>Commander</button>
+  </nav>
+
+  <a href="#accueil" class="nav-back-home">← Retour à l'accueil</a>
+
+  <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main id="routerOutlet">
+
+<!-- ============================================================ PAGE 1 — ACCUEIL -->
+<section class="page" id="page-accueil" data-page-section="accueil">
+
+  <section class="hero hero-home">
+    <div class="hero-halo" aria-hidden="true"></div>
+
+    <div class="hero-home-grid">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Et si vos souvenirs devenaient une collection ?</p>
+        <h1 class="hero-logo">Instant<br>Collecté</h1>
+        <p class="hero-tagline">
+          Vos souvenirs transformés en vignettes personnalisées à ouvrir dans des boosters,
+          puis à collectionner dans un album ou poster.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-order-link>Je commande</button>
+          <a href="#concept" class="btn btn-outline">Découvrir le concept</a>
+        </div>
+        <div class="hero-trust">
+          <span class="hero-trust-item">✦ Créé à partir de vos photos</span>
+          <span class="hero-trust-item">✦ Édition personnalisée</span>
+          <span class="hero-trust-item">✦ Fabriqué en France</span>
+        </div>
+      </div>
+
+      <!-- ========== ZONE BOOSTER — effet d'ouverture façon Pokémon TCG ========== -->
+      <div class="booster-zone">
+        <div class="booster-stage" id="boosterStage">
+
+          <button class="booster-pack" id="boosterPack" aria-label="Cliquer pour ouvrir le booster mystère" aria-expanded="false">
+            <span class="booster-pack-shine" aria-hidden="true"></span>
+            <img class="booster-pack-art" data-img="boosterPackArt" alt="Booster mystère Instant Collecté, édition Été">
+            <span class="booster-pack-hint">touchez pour ouvrir</span>
+          </button>
+
+          <div class="booster-flash" id="boosterFlash" aria-hidden="true"></div>
+
+          <div class="booster-reveal" id="boosterReveal">
+            <figure class="booster-card booster-card-1">
+              <img data-img="boosterCard1" alt="Souvenir révélé 1">
+            </figure>
+            <figure class="booster-card booster-card-2">
+              <img data-img="boosterCard2" alt="Souvenir révélé 2">
+            </figure>
+            <figure class="booster-card booster-card-3">
+              <img data-img="boosterCard3" alt="Souvenir révélé 3">
+            </figure>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- ========== /ZONE BOOSTER ========== -->
+
+    </div>
+
+    <a href="#concept" class="scroll-cue" aria-hidden="true"><span></span></a>
+  </section>
+
+  <!-- bandeau valeurs -->
+  <section class="values">
+    <div class="value">
+      <span class="value-icon">🎁</span>
+      <h3>L'effet déballage</h3>
+      <p>Découvrez vos souvenirs comme une surprise. On ne sait jamais exactement ce qu'il y a dans le booster : c'est tout l'intérêt.</p>
+    </div>
+    <div class="value">
+      <span class="value-icon">📖</span>
+      <h3>Une histoire à construire</h3>
+      <p>Le livret se remplit page après page. Des souvenirs qui prennent vie et se collectionnent au fil du temps.</p>
+    </div>
+    <div class="value">
+      <span class="value-icon">🤍</span>
+      <h3>Un cadeau qui se garde</h3>
+      <p>Plus qu'une simple photo. Un objet que l'on garde, que l'on partage et que l'on transmet.</p>
+    </div>
+  </section>
+
+  <section class="concept-brief">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">Le principe</p>
+      <h2 class="section-title section-title-flanked">
+        <img class="title-flank-art" data-img="titleBoostersArt" alt="" aria-hidden="true">
+        <span>Comment ça fonctionne ?</span>
+        <img class="title-flank-art" data-img="titleBoostersArt" alt="" aria-hidden="true">
+      </h2>
+      <p class="section-text">Pas un produit qu'on achète et qu'on range. Une mécanique à faire vivre, photo après photo.</p>
+    </div>
+    <div class="concept-steps-mini">
+      <div class="step-mini">
+        <span class="step-mini-icon"><img data-img="stepIconCamera" alt="" aria-hidden="true"></span>
+        <span class="step-mini-num">01</span>
+        <h3>Vous envoyez vos photos</h3>
+        <p>Quelques photos suffisent pour créer votre booster.</p>
+      </div>
+      <div class="step-mini">
+        <span class="step-mini-icon"><img data-img="stepIconVignettes" alt="" aria-hidden="true"></span>
+        <span class="step-mini-num">02</span>
+        <h3>Je crée votre collection</h3>
+        <p>Vos photos sont transformées en vignettes personnalisées.</p>
+      </div>
+      <div class="step-mini">
+        <span class="step-mini-icon"><img data-img="stepIconBoosters" alt="" aria-hidden="true"></span>
+        <span class="step-mini-num">03</span>
+        <h3>Vous recevez vos boosters</h3>
+        <p>Chaque booster contient une partie de votre histoire.</p>
+      </div>
+      <div class="step-mini">
+        <span class="step-mini-icon"><img data-img="stepIconLivre" alt="" aria-hidden="true"></span>
+        <span class="step-mini-num">04</span>
+        <h3>Vous ouvrez et collectionnez</h3>
+        <p>Une façon originale de redécouvrir vos souvenirs.</p>
+      </div>
+    </div>
+    <a href="#concept" class="link-more">Voir le concept en détail →</a>
+  </section>
+
+  <section class="editions" id="editions">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">Les éditions</p>
+      <h2 class="section-title">Un booster pour chaque histoire</h2>
+    </div>
+
+    <div class="editions-grid">
+
+      <article class="produit-card">
+        <div class="produit-visual" data-img="boosterBase" data-img-label="Booster mystère"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Booster mystère</h3>
+          <p class="produit-desc">Le format de base, sans occasion particulière. Pour commencer une histoire ou en compléter une déjà commencée.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <button class="btn btn-primary" data-order-link>Je commande</button>
+        </div>
+      </article>
+
+      <article class="produit-card">
+        <div class="produit-visual" data-img="editionMeres" data-img-label="Édition Fête des Mères"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Fête des Mères</h3>
+          <p class="produit-desc">Coffret poster + livret, cinq thèmes à remplir ensemble pour dire merci autrement.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <a href="#fete-des-meres" class="btn btn-outline">Découvrir</a>
+        </div>
+      </article>
+
+      <article class="produit-card">
+        <div class="produit-visual" data-img="editionValentin" data-img-label="Édition Saint-Valentin"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Saint-Valentin</h3>
+          <p class="produit-desc">L'histoire d'un couple, reconstituée à deux, booster après booster.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <a href="#saint-valentin" class="btn btn-outline">Découvrir</a>
+        </div>
+      </article>
+
+      <article class="produit-card">
+        <span class="card-tag tag-partenariat">Partenariat</span>
+        <div class="produit-visual" data-img="editionKing" data-img-label="Édition King Jouet"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">King Jouet</h3>
+          <p class="produit-desc">Une édition spéciale née du partenariat avec King Jouet. [À REMPLACER — détail].</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <a href="#king-jouet" class="btn btn-outline">Découvrir</a>
+        </div>
+      </article>
+
+      <article class="produit-card">
+        <span class="card-tag tag-nouveau">Nouveau</span>
+        <div class="produit-visual" data-img="editionMariage" data-img-label="Édition Mariage"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Mariage</h3>
+          <p class="produit-desc">Le livret des invités, autrement. Une histoire collective à offrir aux mariés.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <a href="#mariage" class="btn btn-outline">Découvrir</a>
+        </div>
+      </article>
+
+      <article class="produit-card">
+        <span class="card-tag tag-bientot">Bientôt</span>
+        <div class="produit-visual" data-img="editionPeres" data-img-label="Édition Fête des Pères"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Fête des Pères</h3>
+          <p class="produit-desc">L'édition dédiée aux souvenirs avec papa arrive bientôt.</p>
+          <p class="produit-price">Bientôt disponible</p>
+          <a href="#fete-des-peres" class="btn btn-outline">En savoir plus</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- bandeau édition vedette : Fête des Mères (place pour la photo Insta) -->
+  <section class="feature-band">
+    <div class="feature-band-media" data-img="editionMeresHero" data-img-label="Visuel Fête des Mères"></div>
+    <div class="feature-band-text">
+      <span class="badge badge-edition">À la une</span>
+      <h2 class="feature-band-title">Édition Fête des Mères</h2>
+      <p>Des souvenirs qui valent plus que tout. Un coffret poster + livret, à compléter ensemble avec les boosters souvenirs.</p>
+      <a href="#fete-des-meres" class="btn btn-primary">Découvrir l'édition</a>
+    </div>
+  </section>
+
+  <section id="ambiance" class="ambiance">
+    <div class="section-header section-header-light section-header-center">
+      <p class="section-eyebrow">L'expérience</p>
+      <h2 class="section-title">Des livrets qui se remplissent, des histoires qui se racontent</h2>
+    </div>
+
+    <div class="polaroid-scatter">
+      <figure class="polaroid polaroid-1">
+        <div class="polaroid-img" data-img="ambiance1" data-img-label="📷"></div>
+        <figcaption>le livret en cours de remplissage</figcaption>
+      </figure>
+      <figure class="polaroid polaroid-2">
+        <div class="polaroid-img" data-img="ambiance2" data-img-label="📷"></div>
+        <figcaption>le moment du déballage</figcaption>
+      </figure>
+      <figure class="polaroid polaroid-3">
+        <div class="polaroid-img" data-img="ambiance3" data-img-label="📷"></div>
+        <figcaption>le livret offert</figcaption>
+      </figure>
+      <figure class="polaroid polaroid-4">
+        <div class="polaroid-img" data-img="ambiance4" data-img-label="📷"></div>
+        <figcaption>les photos qu'on colle ensemble</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <h2 class="cta-final-title">Commencez une histoire à offrir</h2>
+    <p class="cta-final-text">Le prochain booster mystère vous attend.</p>
+    <button class="btn btn-primary btn-large" data-order-link>Je commande maintenant</button>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 2 — CONCEPT -->
+<section class="page" id="page-concept" data-page-section="concept">
+
+  <div class="page-header">
+    <p class="section-eyebrow">Pour qui découvre la marque</p>
+    <h1 class="page-title">Comment ça marche</h1>
+    <p class="page-intro">
+      [À REMPLACER — texte exact] Instant Collecté n'est pas un tirage photo qu'on range dans un tiroir.
+      C'est un protocole, presque un jeu, pensé pour transformer des souvenirs qui dormaient dans un téléphone
+      en objet qu'on construit à deux, et qu'on offre à la fin.
+    </p>
+  </div>
+
+  <div class="concept-steps-full">
+
+    <article class="concept-step-row step-img-right">
+      <div class="concept-step-content">
+        <span class="step-num">01</span>
+        <h3>Créer le booster</h3>
+        <p>[À REMPLACER] On choisit les photos, les souvenirs et la personne à qui le livret final sera destiné. Chaque booster est composé sur mesure à partir de ces éléments.</p>
+      </div>
+      <div class="concept-step-media" data-img="step1" data-img-label="Créer le booster"></div>
+    </article>
+
+    <article class="concept-step-row step-img-left">
+      <div class="concept-step-media" data-img="step2" data-img-label="Ouvrir en surprise"></div>
+      <div class="concept-step-content">
+        <span class="step-num">02</span>
+        <h3>L'ouvrir en surprise</h3>
+        <p>[À REMPLACER] Comme un paquet de cartes à collectionner, le booster se découvre à l'ouverture : on ne sait pas exactement quelles photos et quels souvenirs vont en sortir.</p>
+      </div>
+    </article>
+
+    <article class="concept-step-row step-img-right">
+      <div class="concept-step-content">
+        <span class="step-num">03</span>
+        <h3>Remplir le livret</h3>
+        <p>[À REMPLACER] Les photos et souvenirs du booster viennent se coller ou s'insérer dans un livret-album, thème par thème, pour reconstituer une histoire complète.</p>
+      </div>
+      <div class="concept-step-media" data-img="step3" data-img-label="Remplir le livret"></div>
+    </article>
+
+    <article class="concept-step-row step-img-left">
+      <div class="concept-step-media" data-img="step4" data-img-label="Offrir"></div>
+      <div class="concept-step-content">
+        <span class="step-num">04</span>
+        <h3>Offrir</h3>
+        <p>[À REMPLACER] Le livret rempli devient l'objet cadeau : on l'offre à la personne concernée, qui (re)découvre l'histoire qu'on a construite pour elle.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="faq">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">Questions fréquentes</p>
+      <h2 class="section-title">Avant de commander</h2>
+    </div>
+
+    <details class="faq-item">
+      <summary>Qu'est-ce qu'un booster mystère, concrètement ?</summary>
+      <p>[À REMPLACER] C'est un petit paquet scellé contenant des photos et éléments de souvenir, dans l'esprit d'un paquet de cartes à collectionner : on ne sait pas exactement ce qu'on va trouver à l'intérieur avant de l'ouvrir.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Je dois envoyer ou imprimer mes photos avant de commander ?</summary>
+      <p>[À REMPLACER — procédé exact de personnalisation à préciser].</p>
+    </details>
+    <details class="faq-item">
+      <summary>Le livret, je le remplis comment ?</summary>
+      <p>[À REMPLACER] Le livret est organisé en thèmes ou en pages dédiées. On y colle ou insère les photos et souvenirs reçus dans le booster, dans l'ordre qu'on souhaite.</p>
+    </details>
+    <details class="faq-item">
+      <summary>C'est pour qui ?</summary>
+      <p>Pour quelqu'un à qui on veut offrir un souvenir qui se tient, se feuillette et se garde — un parent, un partenaire, des mariés, un ami. Chaque édition adapte le thème à l'occasion.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Combien de temps pour recevoir ma commande ?</summary>
+      <p>[À REMPLACER — délai de fabrication et d'expédition].</p>
+    </details>
+  </div>
+
+  <section class="cta-final">
+    <h2 class="cta-final-title">Prêt à commencer votre histoire ?</h2>
+    <p class="cta-final-text">Choisissez une édition ou partez sur le booster mystère classique.</p>
+    <button class="btn btn-primary btn-large" data-order-link>Je commande maintenant</button>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 3 — KING JOUET -->
+<section class="page" id="page-king-jouet" data-page-section="king-jouet">
+
+  <section class="hero hero-edition">
+    <div class="hero-halo" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="badge badge-partenariat">Partenariat</span>
+      <p class="co-brand-lockup">Instant Collecté <span class="co-brand-x">×</span> King Jouet</p>
+      <h1 class="edition-title">Les souvenirs d'enfance, <span class="edition-title-script">à collectionner</span></h1>
+      <p class="hero-tagline">
+        [À REMPLACER — accroche exacte du partenariat] Une édition Instant Collecté pensée avec King Jouet,
+        pour transformer les souvenirs de jeu et d'enfance en un livret qu'on garde.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-order-link>Suivre l'actu du partenariat</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="edition-detail">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">L'édition</p>
+      <h2 class="section-title">Ce que contient cette édition</h2>
+    </div>
+    <div class="edition-detail-grid">
+      <article class="produit-card">
+        <div class="produit-visual" data-img="kingBooster" data-img-label="Booster King Jouet"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Booster King Jouet</h3>
+          <p class="produit-desc">[À REMPLACER — description précise du produit co-brandé : thème, contenu, format].</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <button class="btn btn-primary" data-order-link>Je commande</button>
+        </div>
+      </article>
+      <article class="produit-card">
+        <div class="produit-visual" data-img="kingShop" data-img-label="Où le trouver"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Où le trouver</h3>
+          <p class="produit-desc">[À REMPLACER — disponible en magasin King Jouet uniquement, en ligne, ou les deux ? Quels magasins, quelle période ?]</p>
+        </div>
+      </article>
+    </div>
+    <p class="edition-note">[À REMPLACER — mention contractuelle ou légale éventuellement imposée par King Jouet : durée de l'opération, conditions, etc.]</p>
+  </section>
+
+  <section class="cta-final cta-final-king-jouet">
+    <h2 class="cta-final-title">Suivez le partenariat King Jouet</h2>
+    <p class="cta-final-text">Les annonces et disponibilités sont publiées en premier sur Instagram.</p>
+    <button class="btn btn-primary btn-large" data-order-link>Suivre sur Instagram</button>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 4 — FÊTE DES MÈRES -->
+<section class="page" id="page-fete-des-meres" data-page-section="fete-des-meres">
+
+  <section class="hero hero-edition hero-split">
+    <div class="hero-halo" aria-hidden="true"></div>
+    <div class="hero-split-text">
+      <span class="badge badge-edition">Édition Fête des Mères</span>
+      <h1 class="edition-title">Des souvenirs qui valent <span class="edition-title-script">plus que tout</span></h1>
+      <p class="hero-tagline">Vos photos. Vos moments. Votre histoire.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-order-link>Je commande</button>
+      </div>
+    </div>
+    <div class="hero-split-media" data-img="meresHero" data-img-label="Coffret Fête des Mères"></div>
+  </section>
+
+  <section class="edition-detail">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">Le coffret</p>
+      <h2 class="section-title">Un poster et un livret, à compléter ensemble</h2>
+    </div>
+    <div class="edition-detail-grid">
+      <article class="produit-card">
+        <div class="produit-visual" data-img="meresPoster" data-img-label="Le poster"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Le poster</h3>
+          <p class="produit-desc">À compléter avec les boosters souvenirs, puis à afficher et à revivre.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+        </div>
+      </article>
+      <article class="produit-card">
+        <div class="produit-visual" data-img="meresLivret" data-img-label="Le livret"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Le livret</h3>
+          <p class="produit-desc">Une histoire en cinq thèmes à remplir ensemble : "nos plus beaux souvenirs", page après page.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+        </div>
+      </article>
+    </div>
+    <p class="edition-tagline-end">À ouvrir, découvrir et revivre.</p>
+    <div class="hero-actions hero-actions-center">
+      <button class="btn btn-primary btn-large" data-order-link>Je commande le coffret</button>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 5 — SAINT-VALENTIN -->
+<section class="page" id="page-saint-valentin" data-page-section="saint-valentin">
+
+  <section class="hero hero-edition hero-split">
+    <div class="hero-halo" aria-hidden="true"></div>
+    <div class="hero-split-text">
+      <span class="badge badge-edition">Édition Saint-Valentin</span>
+      <h1 class="edition-title">Votre histoire d'amour, <span class="edition-title-script">collée page après page</span></h1>
+      <p class="hero-tagline">[À REMPLACER — accroche exacte] Le premier rendez-vous, le premier voyage, les petites habitudes : tout ce qui vous appartient, à deux.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-order-link>Je commande</button>
+      </div>
+    </div>
+    <div class="hero-split-media" data-img="valentinHero" data-img-label="Édition Saint-Valentin"></div>
+  </section>
+
+  <section class="edition-detail">
+    <div class="section-header section-header-center">
+      <p class="section-eyebrow">Le concept de cette édition</p>
+      <h2 class="section-title">Reconstituer une histoire de couple, à deux</h2>
+    </div>
+    <div class="edition-detail-grid">
+      <article class="produit-card">
+        <div class="produit-visual" data-img="valentinBooster" data-img-label="Booster Saint-Valentin"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Booster Saint-Valentin</h3>
+          <p class="produit-desc">[À REMPLACER — thèmes du booster : rencontre, voyages, petits riens du quotidien...]</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+          <button class="btn btn-primary" data-order-link>Je commande</button>
+        </div>
+      </article>
+      <article class="produit-card">
+        <div class="produit-visual" data-img="valentinLivret" data-img-label="Le livret du couple"></div>
+        <div class="produit-body">
+          <h3 class="produit-title">Le livret du couple</h3>
+          <p class="produit-desc">À remplir à deux, pour se souvenir — et à s'offrir l'un à l'autre, ou à offrir ensemble.</p>
+          <p class="produit-price">[À REMPLACER — prix]</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <h2 class="cta-final-title">Offrez une histoire, pas un objet</h2>
+    <button class="btn btn-primary btn-large" data-order-link>Je commande maintenant</button>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 6 — MARIAGE (teaser) -->
+<section class="page" id="page-mariage" data-page-section="mariage">
+
+  <section class="hero hero-edition hero-teaser">
+    <div class="hero-halo" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="badge badge-nouveau">Nouveau — bientôt disponible</span>
+      <h1 class="edition-title">Le livret d'invités, <span class="edition-title-script">autrement</span></h1>
+      <p class="hero-tagline">
+        [À REMPLACER — concept exact] Une histoire collective construite par les invités eux-mêmes,
+        à offrir aux mariés à la fin de la soirée.
+      </p>
+      <div class="teaser-notice">
+        <p>Cette édition est en cours de finalisation. La meilleure façon d'être prévenu dès son lancement : suivre le compte Instagram.</p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-order-link>Être prévenu en avant-première</button>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============================================================ PAGE 7 — FÊTE DES PÈRES (teaser) -->
+<section class="page" id="page-fete-des-peres" data-page-section="fete-des-peres">
+
+  <section class="hero hero-edition hero-teaser">
+    <div class="hero-halo" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="badge badge-bientot">Bientôt disponible</span>
+      <h1 class="edition-title">Les souvenirs avec papa, <span class="edition-title-script">à rassembler</span></h1>
+      <p class="hero-tagline">
+        [À REMPLACER — concept exact] Les bricolages, les sorties, les petites aventures du quotidien :
+        une édition pour raconter une histoire avec lui.
+      </p>
+      <div class="teaser-notice">
+        <p>Cette édition est en cours de préparation. La meilleure façon d'être prévenu dès son lancement : suivre le compte Instagram.</p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-order-link>Être prévenu en avant-première</button>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+</main>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer" id="siteFooter">
+  <div class="footer-content">
+    <p class="footer-logo">Instant Collecté</p>
+
+    <nav class="footer-nav">
+      <a href="#accueil">Accueil</a>
+      <a href="#concept">Le concept</a>
+      <a href="#fete-des-meres">Fête des Mères</a>
+      <a href="#saint-valentin">Saint-Valentin</a>
+      <a href="#king-jouet">King Jouet</a>
+      <a href="#mariage">Mariage</a>
+      <a href="#fete-des-peres">Fête des Pères</a>
+    </nav>
+
+    <a href="https://www.instagram.com/instant_collecte/" target="_blank" rel="noopener" class="footer-instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4.2"/>
+        <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+      </svg>
+      @instant_collecte
+    </a>
+
+    <p class="footer-mentions">© 2026 Instant Collecté — Tous droits réservés</p>
+  </div>
+</footer>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
